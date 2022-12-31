@@ -12,16 +12,12 @@ export class Dispatcher {
     return this.appStore.loadInitialState()
   }
 
-  public selectPixel(index: number): Promise<void> {
-    return this.appStore._selectPixel(index)
-  }
-
   public changePixelColor(index: number, color: any): Promise<void> {
     return this.appStore._changePixelColor(index, color)
   }
 
-  public closeColorPicker(): Promise<void> {
-    return this.appStore._closeColorPicker()
+  public updateColor(color: any): Promise<void> {
+    return this.appStore._updateColor(color)
   }
 
   public updateWledSegment(): Promise<void> {

@@ -6,8 +6,7 @@ export interface Pixel {
 
 export interface IAppState {
   readonly pixels: ReadonlyArray<Pixel>
-  readonly selectedPixel: Pixel | null
-  readonly displayColorPicker: boolean
+  readonly color: any
   readonly wledSegment: string
   readonly wledIpAddress: string
   readonly curlCommand: string

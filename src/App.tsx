@@ -7,6 +7,7 @@ import { Dispatcher } from './lib/dispatcher'
 import { TextArea } from './TextArea'
 import { Button } from './Button'
 import { TextBox } from './TextBox'
+import { ChromePicker } from 'react-color'
 import wledlogo from './wled_logo_akemi.png'
 
 interface IAppProps {
@@ -40,13 +41,19 @@ export class App extends React.Component<IAppProps, IAppState> {
           <div className="App-table">
             <Table
               pixels={this.state.pixels}
-              selectedPixel={this.state.selectedPixel}
-              displayColorPicker={this.state.displayColorPicker}
               onClick={this.onPixelClick}
-              onColorChange={this.handleColorChange}
-              onColorChangeComplete={this.handleColorChangeComplete}
-              onColorPickerClose={this.handleClose}
             />
+            <div className="App-color-picker">
+              <ChromePicker
+                onChange={this.handleColorChange}
+                color={this.state.color}
+              />
+              <Button
+                onClick={this.handleClearCanvas}
+              >
+                Clear
+              </Button>
+            </div>
           </div>
           <div className="App-editor">
             <div className="wled-test">
@@ -70,21 +77,12 @@ export class App extends React.Component<IAppProps, IAppState> {
   }
 
   private onPixelClick = (index: number) => {
-    this.props.dispatcher.selectPixel(index)
-  }
-
-  private handleColorChange = (color: any) => {
-    if (this.state.selectedPixel) {
-      this.props.dispatcher.changePixelColor(this.state.selectedPixel.index, color)
-    }
-  }
-
-  private handleColorChangeComplete = () => {
+    this.props.dispatcher.changePixelColor(index, this.state.color)
     this.props.dispatcher.updateWledSegment()
   }
 
-  private handleClose = () => {
-    this.props.dispatcher.closeColorPicker()
+  private handleColorChange = (color: any) => {
+   this.props.dispatcher.updateColor(color)
   }
 
   private handleTestClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,5 +91,9 @@ export class App extends React.Component<IAppProps, IAppState> {
 
   private handleIpAddressChange = (ipAddress: string) => {
     this.props.dispatcher.updateWledIpAddress(ipAddress)
+  }
+
+  private handleClearCanvas = (e: React.MouseEvent<HTMLButtonElement>) => {
+    this.props.dispatcher.loadInitalState()
   }
 }

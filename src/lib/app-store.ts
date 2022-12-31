@@ -13,8 +13,7 @@ import {
 export class AppStore extends TypedBaseStore<IAppState> {
   private emitQueued = false
   private pixels: ReadonlyArray<Pixel> = []
-  private selectedPixel: Pixel | null = null
-  private displayColorPicker: boolean = false
+  private color: any = {}
   private wledSegment: string = ''
   private wledIpAddress: string = '0.0.0.0'
   private curlCommand: string = ''
@@ -23,8 +22,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
   public getState(): IAppState {
     return {
       pixels: this.pixels,
-      selectedPixel: this.selectedPixel,
-      displayColorPicker: this.displayColorPicker,
+      color: this.color,
       wledSegment: this.wledSegment,
       wledIpAddress: this.wledIpAddress,
       curlCommand: this.curlCommand
@@ -32,6 +30,14 @@ export class AppStore extends TypedBaseStore<IAppState> {
   }
 
   public async loadInitialState() {
+    this.color = {
+      hex: '#000000',
+      rgb: {
+        r: 0,
+        g: 0,
+        b: 0
+      }
+    }
     this.pixels = range(0,256).map((i) => {
       return (
         {
@@ -47,12 +53,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.emiteUpdateNow()
   }
 
-  public async _selectPixel(index: number): Promise<void> {
-    this.selectedPixel = this.pixels[index]
-    this.displayColorPicker = true
-    this.emitUpdate()
-  }
-
   public async _changePixelColor(index: number, color: any): Promise<void> {
     const newPixels = Array.from(this.pixels)
     const pixel: Pixel = {
@@ -62,13 +62,12 @@ export class AppStore extends TypedBaseStore<IAppState> {
     }
     newPixels[index] = pixel
     this.pixels = newPixels
-    this.selectedPixel = pixel
 
     this.emitUpdate()
   }
 
-  public async _closeColorPicker(): Promise<void> {
-    this.displayColorPicker = false
+  public async _updateColor(color: any): Promise<void> {
+    this.color = color
     this.emitUpdate()
   }
 

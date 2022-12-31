@@ -6,8 +6,9 @@
   color: #a5d6ff;
   touch-action: auto;
   word-break: normal;
-  overflow: auto;
+  overflow: hidden auto;
   position: relative;
+  height: 390px;
 }
 
 .segment-text>code {
