@@ -1,6 +1,6 @@
 # WLED Pixel Art Creator
 
-Create 16x16 pixel art using [WLED].
+Create 16x16 pixel art using [WLED](https://kno.wled.ge/).
 
 ## Development
 
