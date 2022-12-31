@@ -1,0 +1,16 @@
+.segment-text{
+  background-color: #42464c;
+  font-size: 0.85rem;
+  padding: .7720588235em 1.1764705882em;
+  border-radius: 0.1rem;
+  color: #a5d6ff;
+  touch-action: auto;
+  word-break: normal;
+  overflow: auto;
+  position: relative;
+}
+
+.segment-text>code {
+  display: block;
+  white-space: break-spaces;
+}

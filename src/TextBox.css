@@ -1,0 +1,27 @@
+.text-box-component {
+  display: flex;
+  flex-direction: row;
+}
+
+.text-box-component>.label-container{
+  font-size: 0.85rem;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.text-box-component>input{
+  font-size: 0.85rem;
+  border: 1px solid #282c34;
+  border-radius: .1rem;
+  padding: .2rem;
+  margin: 0 .5rem;
+  background-color: #42464c;
+  color: white;
+  outline: none;
+}
+
+.text-box-component>input:focus {
+  border: 1px solid #00bfa5;
+}

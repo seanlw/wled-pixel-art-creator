@@ -1,0 +1,31 @@
+.copy-button {
+  border-radius: 0.1rem;
+  color: #d2d7f91f;
+  cursor: pointer;
+  height: 1.5em;
+  outline-offset: 0.1rem;
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+  transition: color .25s;
+  width: 1.5em;
+  z-index: 1;
+  background-color: #00000000;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  mask-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12V1Z"/></svg>');
+}
+
+.copy-button::after{
+  content: "";
+  margin: 0 auto;
+  height: 2.125em;
+  width: 2.125em;
+  background-color: currentColor;
+  display: block;
+}
+
+:hover>.copy-button {
+  color: #afb0b6;
+}
