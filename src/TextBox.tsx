@@ -16,9 +16,12 @@ interface ITextBoxState {
 }
 
 export class TextBox extends React.Component<ITextBoxProps, ITextBoxState> {
-  state = {
-    inputId: `TextBox_${this.props.label || this.props.placeholder}`,
-    value: this.props.value
+  public constructor(props: ITextBoxProps) {
+    super(props)
+
+    this.state = {
+      value: ''
+    }
   }
 
   public render() {
