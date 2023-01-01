@@ -1,4 +1,3 @@
-import { timeStamp } from 'console'
 import { AppStore } from './app-store'
 
 export class Dispatcher {

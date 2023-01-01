@@ -2,8 +2,6 @@ import * as React from 'react'
 import { range } from './lib/range'
 import './Table.css'
 import { Pixel } from './lib/app-state'
-import classNames from 'classnames'
-
 
 interface ITableProps {
   readonly pixels: ReadonlyArray<Pixel>
