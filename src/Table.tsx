@@ -1,7 +1,10 @@
 import * as React from 'react'
 import { range } from './lib/range'
 import './Table.css'
-import { Pixel } from './lib/app-state'
+import { 
+  MouseButton, 
+  Pixel 
+} from './lib/app-state'
 
 interface ITableProps {
   readonly pixels: ReadonlyArray<Pixel>
@@ -155,8 +158,10 @@ class PixelBox extends React.Component<IPixelBoxProps, {}> {
   }
 
   private onMouseDown = (e: React.MouseEvent<HTMLTableCellElement>) => {
-    this.props.onFillPixel(this.props.pixel.index)
-    this.props.onMouseDown(e)
+    if (e.button === MouseButton.Left){
+      this.props.onFillPixel(this.props.pixel.index)
+      this.props.onMouseDown(e)
+    }
   }
 
   private onMouseUp = (e: React.MouseEvent<HTMLTableCellElement>) => {

@@ -11,3 +11,9 @@ export interface IAppState {
   readonly wledIpAddress: string
   readonly curlCommand: string
 }
+
+export enum MouseButton {
+  Left,
+  Middle,
+  Right
+}
