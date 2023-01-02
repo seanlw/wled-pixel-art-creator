@@ -41,7 +41,7 @@ export class App extends React.Component<IAppProps, IAppState> {
           <div className="App-table">
             <Table
               pixels={this.state.pixels}
-              onClick={this.onPixelClick}
+              onFillPixel={this.onFillPixel}
             />
             <div className="App-color-picker">
               <ChromePicker
@@ -76,7 +76,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     )
   }
 
-  private onPixelClick = (index: number) => {
+  private onFillPixel = (index: number) => {
     this.props.dispatcher.changePixelColor(index, this.state.color)
     this.props.dispatcher.updateWledSegment()
   }

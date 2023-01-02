@@ -5,10 +5,18 @@ import { Pixel } from './lib/app-state'
 
 interface ITableProps {
   readonly pixels: ReadonlyArray<Pixel>
-  readonly onClick: (index: number) => void
+  readonly onFillPixel: (index: number) => void
 }
 
-export class Table extends React.Component<ITableProps, {}> {
+interface ITableState {
+  readonly drawing: boolean
+}
+
+export class Table extends React.Component<ITableProps, ITableState> {
+  state = {
+    drawing: false
+  }
+
   public render() {
     return (
       <table
@@ -17,21 +25,35 @@ export class Table extends React.Component<ITableProps, {}> {
          <tbody>
           <Rows 
             pixels={this.props.pixels}
-            onClick={this.onClick}
+            drawing={this.state.drawing}
+            onFillPixel={this.onFillPixel}
+            onMouseDown={this.onMouseDown}
+            onMouseUp={this.onMouseUp}
           />
          </tbody>
       </table>
     )
   }
 
-  private onClick = (index: number) => {
-    this.props.onClick(index)
+  private onFillPixel = (index: number) => {
+    this.props.onFillPixel(index)
+  }
+
+  private onMouseDown = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    this.setState({ drawing: true })
+  }
+
+  private onMouseUp = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    this.setState({ drawing: false })
   }
 }
 
 interface IRowsProps {
   readonly pixels: ReadonlyArray<Pixel>
-  readonly onClick: (index: number) => void
+  readonly drawing: boolean
+  readonly onFillPixel: (index: number) => void
+  readonly onMouseDown: (e: React.MouseEvent<HTMLTableCellElement>) => void
+  readonly onMouseUp: (e: React.MouseEvent<HTMLTableCellElement>) => void
 }
 
 class Rows extends React.Component<IRowsProps, {}> {
@@ -45,7 +67,10 @@ class Rows extends React.Component<IRowsProps, {}> {
         <Row 
           key={i}
           pixels={pixelRowState}
-          onClick={this.props.onClick}
+          drawing={this.props.drawing}
+          onFillPixel={this.props.onFillPixel}
+          onMouseUp={this.props.onMouseUp}
+          onMouseDown={this.props.onMouseDown}
         />
       )
     }) 
@@ -54,7 +79,10 @@ class Rows extends React.Component<IRowsProps, {}> {
 
 interface IRowProps {
   readonly pixels: ReadonlyArray<Pixel>
-  readonly onClick: (index: number) => void
+  readonly drawing: boolean
+  readonly onFillPixel: (index: number) => void
+  readonly onMouseDown: (e: React.MouseEvent<HTMLTableCellElement>) => void
+  readonly onMouseUp: (e: React.MouseEvent<HTMLTableCellElement>) => void
 }
 
 class Row extends React.Component<IRowProps, {}> {
@@ -63,7 +91,10 @@ class Row extends React.Component<IRowProps, {}> {
       <tr>
         <PixelRow 
           pixels={this.props.pixels}
-          onClick={this.props.onClick}
+          drawing={this.props.drawing}
+          onFillPixel={this.props.onFillPixel}
+          onMouseUp={this.props.onMouseUp}
+          onMouseDown={this.props.onMouseDown}
         />
       </tr>
     )
@@ -72,7 +103,10 @@ class Row extends React.Component<IRowProps, {}> {
 
 interface IPixelRowProps {
   readonly pixels: ReadonlyArray<Pixel>
-  readonly onClick: (index: number) => void
+  readonly drawing: boolean
+  readonly onFillPixel: (index: number) => void
+  readonly onMouseDown: (e: React.MouseEvent<HTMLTableCellElement>) => void
+  readonly onMouseUp: (e: React.MouseEvent<HTMLTableCellElement>) => void
 }
 
 class PixelRow extends React.Component<IPixelRowProps, {}> {
@@ -84,7 +118,10 @@ class PixelRow extends React.Component<IPixelRowProps, {}> {
         <PixelBox
           key={i}
           pixel={pixel}
-          onClick={this.props.onClick}
+          drawing={this.props.drawing}
+          onFillPixel={this.props.onFillPixel}
+          onMouseDown={this.props.onMouseDown}
+          onMouseUp={this.props.onMouseUp}
         />
       )
     })
@@ -94,7 +131,10 @@ class PixelRow extends React.Component<IPixelRowProps, {}> {
 
 interface IPixelBoxProps {
   readonly pixel: Pixel
-  readonly onClick: (index: number) => void
+  readonly drawing: boolean
+  readonly onFillPixel: (index: number) => void
+  readonly onMouseDown: (e: React.MouseEvent<HTMLTableCellElement>) => void
+  readonly onMouseUp: (e: React.MouseEvent<HTMLTableCellElement>) => void
 }
 
 class PixelBox extends React.Component<IPixelBoxProps, {}> {
@@ -107,13 +147,26 @@ class PixelBox extends React.Component<IPixelBoxProps, {}> {
     return (
       <td
        style={ pixelStyle }
-       onClick={this.onClick}
+       onMouseDown={this.onMouseDown}
+       onMouseUp={this.onMouseUp}
+       onMouseEnter={this.onMouseEnter}
       ></td>
     )
   }
 
-  private onClick = (e: React.MouseEvent<HTMLTableCellElement>) => {
-    this.props.onClick(this.props.pixel.index)
+  private onMouseDown = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    this.props.onFillPixel(this.props.pixel.index)
+    this.props.onMouseDown(e)
+  }
+
+  private onMouseUp = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    this.props.onMouseUp(e)
+  }
+
+  private onMouseEnter = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    if (this.props.drawing) {
+      this.props.onFillPixel(this.props.pixel.index)
+    }
   }
 
 }
