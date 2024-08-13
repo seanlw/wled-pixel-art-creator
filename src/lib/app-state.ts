@@ -6,6 +6,7 @@ export interface Pixel {
 
 export interface IAppState {
   readonly pixels: ReadonlyArray<Pixel>
+  readonly firstPixel: Orientation
   readonly color: any
   readonly wledSegment: string
   readonly wledIpAddress: string
@@ -15,5 +16,10 @@ export interface IAppState {
 export enum MouseButton {
   Left,
   Middle,
+  Right
+}
+
+export enum Orientation {
+  Left,
   Right
 }

@@ -1,7 +1,7 @@
-import { Pixel } from './app-state'
+import { Orientation, Pixel } from './app-state'
 
-export const createSegments = (pixels: ReadonlyArray<Pixel>): string => {
-  const segmentPixels = segment(pixels)
+export const createSegments = (pixels: ReadonlyArray<Pixel>, firstPixel: Orientation): string => {
+  const segmentPixels = segment(pixels, firstPixel)
   let segementString = ''
   let prevPixel: Pixel = segmentPixels[0]
   let startIndex = 0
@@ -23,13 +23,13 @@ export const createSegments = (pixels: ReadonlyArray<Pixel>): string => {
   return segementString
 }
 
-export const segment = (pixels: ReadonlyArray<Pixel>): ReadonlyArray<Pixel> => {
+export const segment = (pixels: ReadonlyArray<Pixel>, firstPixel: Orientation): ReadonlyArray<Pixel> => {
   let newPixels: Array<Pixel> = []
   let odd = true
   for(let i = 0; i < pixels.length; i += 16) {
-    const row = odd ? pixels.slice(i, i + 16).reverse() : pixels.slice(i, i + 16)
+    const row = odd && firstPixel != Orientation.Left ? pixels.slice(i, i + 16).reverse() : pixels.slice(i, i + 16)
     newPixels = newPixels.concat(row)
-    odd = !odd
+    odd = firstPixel != Orientation.Left ? !odd : odd
   }
 
   return newPixels

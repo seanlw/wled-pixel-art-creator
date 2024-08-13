@@ -1,5 +1,6 @@
 import { TypedBaseStore } from './base-store'
 import { 
+  Orientation,
   IAppState, 
   Pixel
 } from './app-state'
@@ -17,6 +18,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
   private wledSegment: string = ''
   private wledIpAddress: string = '0.0.0.0'
   private curlCommand: string = ''
+  private firstPixel: Orientation = Orientation.Left
 
 
   public getState(): IAppState {
@@ -25,7 +27,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
       color: this.color,
       wledSegment: this.wledSegment,
       wledIpAddress: this.wledIpAddress,
-      curlCommand: this.curlCommand
+      curlCommand: this.curlCommand,
+      firstPixel: this.firstPixel
     }
   }
 
@@ -47,7 +50,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         }
       )
     })
-    this.wledSegment = createSegments(this.pixels)
+    this.wledSegment = createSegments(this.pixels, this.firstPixel)
     this.curlCommand = curlCommand(this.wledIpAddress, this.wledSegment)
 
     this.emiteUpdateNow()
@@ -72,7 +75,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
   }
 
   public async _updateWledSegment(): Promise<void> {
-    this.wledSegment = createSegments(this.pixels)
+    this.wledSegment = createSegments(this.pixels, this.firstPixel)
     this.curlCommand = curlCommand(this.wledIpAddress, this.wledSegment)
     this.emitUpdate()
   }
